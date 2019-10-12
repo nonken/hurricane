@@ -13,9 +13,9 @@ A CDN for static asset delivery
 ## Getting started
 There are only a few prerequisites for you to spin up this stack.
 
-### 1. Buy a domain where you can manage the DNS
+### 1. Buy a domain where you can manage DNS
 
-### 2. Create GitHub token
+### 2. Create GitHub API token
 1. Go to github and create an API key.
 2. Store key in AWS Secret manager.
 

@@ -1,54 +1,40 @@
-# Project setup
+# AWS Infrastructure Setup
+This project allows you to setup a complete stack on AWS with following characteristics.
 
-## Buy a domain where you can manage the DNS
+1. Three different components.
+A classic webservice, delivering your webpages.
+An API service which the webservice can communicate with. 
+A CDN for static asset delivery
 
-## Create GitHub token
+2. CI/CD for each of the components, with staging and production stages.
+
+3. SSL and HTTP to HTTPS redirect out of the box.
+
+## Getting started
+There are only a few prerequisites for you to spin up this stack.
+
+### 1. Buy a domain where you can manage the DNS
+
+### 2. Create GitHub token
 1. Go to github and create an API key.
 2. Store key in AWS Secret manager.
 
-## Create ACM certificate
+### 3. Create ACM certificate
 1. Get the ARN of the certificate you'd like to use.
 
-## Setup `cdk.context.json` with the following content
-```
-"context": {
-    "stackName": "STACKNAME",
-    "zoneName": "YOUR.DOMAIN",
-    "certificateArns": ["ARN_FOR_CERTIFICATE_FOR_YOUR_DOMAIN"],
-    "githubTokenSecretArn": "ARN_FOR_GITHUB_SECRET_IN_SECRETS_MANAGER",
-    "githubTokenFieldName": "GITHUB_SECRET_FIELD_NAME",
-    "githubOwner": "GITHUB_OWNER",
-    "githubRepo": "GITHUB_REPO",
-    "githubBranch": "GITHUB_BRANCH",
-    "stages": {
-      "staging": {
-        "hostName": "STAGING.YOUR.DOMAIN",
-        "stageName": "Staging",
-        "priority": 1
-      },
-      "production": {
-        "hostName": "YOUR.DOMAIN",
-        "stageName": "Production",
-        "priority": 2,
-        "cname": {
-          "recordName": "www",
-          "priority": 3
-        }
-      }
-    }
-  }
-```
+### 4. Setup `cdk.context.json`
+Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct values.
 
-## Deploy the stack
+### 5. Deploy the stack
 ```
 cdk deploy --profile YOUR_CREDENTIAL_PROFILE
 ```
 
-## Update your DNS records to point to the Rout53 entries
+### 6. Update your DNS records to point to the Rout53 entries
 
-## Profit 
+### 7. Profit 
 
-# Known issues
+## Known issues
 
 When you destroy the stack and recreate it, you need to delete an alias used for KMS:
 
@@ -56,12 +42,12 @@ When you destroy the stack and recreate it, you need to delete an alias used for
 aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --region AWS_REGION
 ```
 
-# TODO
+## TODO
 * [x] Redirect HTTP to HTTPS
 * [ ] Pipeline for static assets
 * [ ] Run own NAT gateway to reduce cost (https://hackernoon.com/dealing-with-an-aws-billing-surprise-beware-the-defaults-d8a95f6635a2)
 
-# Useful commands
+## Useful commands
 
  * `cdk deploy`      deploy this stack to your default AWS account/region
  * `cdk diff`        compare deployed stack with current state

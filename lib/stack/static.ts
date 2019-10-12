@@ -88,7 +88,7 @@ export class StaticAssets extends Construct {
     });
 
     pipeline.addStage({
-      stageName: 'Staging',
+      stageName: stages.staging.hostName,
       actions: [stagingAction],
     });
 

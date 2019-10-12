@@ -78,7 +78,8 @@ export class StaticAssets extends Construct {
     // Staging static assets
     const staticAssetsStaging = new Bucket(this, `${id}-staging-bucket`, {
       accessControl: BucketAccessControl.PUBLIC_READ,
-      bucketName: `${id}-staging-bucket`
+      bucketName: `${id}-staging-bucket`,
+      publicReadAccess: true
     });
 
     const stagingAction = new S3DeployAction({
@@ -118,7 +119,8 @@ export class StaticAssets extends Construct {
     // Production
     const staticAssetsProduction = new Bucket(this, `${id}-production-bucket`, {
       accessControl: BucketAccessControl.PUBLIC_READ,
-      bucketName: `${id}-production-bucket`
+      bucketName: `${id}-production-bucket`,
+      publicReadAccess: true
     });
 
     const stagingActionProduction = new S3DeployAction({

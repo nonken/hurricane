@@ -40,13 +40,20 @@
 ```
 
 ## Deploy the stack
+```
+cdk deploy --profile YOUR_CREDENTIAL_PROFILE
+```
+
+## Update your DNS records to point to the Rout53 entries
+
+## Profit 
 
 # Known issues
 
 When you destroy the stack and recreate it, you need to delete an alias used for KMS:
 
 ```
-aws kms delete-alias --alias-name ALIAS_NAME --profile CREDENTIAL_PROFILE --region REGION
+aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --region AWS_REGION
 ```
 
 # TODO

@@ -1,0 +1,5 @@
+cdk.out/
+.DS_Store
+.idea/
+node_modules/
+/cdk.context.json

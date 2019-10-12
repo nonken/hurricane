@@ -1,0 +1,30 @@
+{
+  "name": "aws-infrastructure",
+  "author": "Nikolai Onken <nikolai@nikolaionken.com>",
+  "license": "MIT",
+  "version": "0.0.1",
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "aws-cdk": "^1.12.0",
+    "@aws-cdk/assert": "^1.6.1",
+    "@types/jest": "^24.0.18",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.0.2",
+    "ts-node": "^8.1.0",
+    "typescript": "~3.6.2",
+    "@aws-cdk/aws-codebuild": "^1.12.0",
+    "@aws-cdk/aws-codepipeline": "^1.12.0",
+    "@aws-cdk/aws-codepipeline-actions": "^1.12.0",
+    "@aws-cdk/aws-route53": "^1.12.0",
+    "@aws-cdk/aws-route53-targets": "^1.12.0",
+    "@aws-cdk/aws-sns": "^1.12.0",
+    "@aws-cdk/aws-sns-subscriptions": "^1.12.0",
+    "@aws-cdk/aws-sqs": "^1.12.0",
+    "@aws-cdk/core": "^1.12.0"
+  }
+}

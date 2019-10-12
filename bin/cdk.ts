@@ -5,9 +5,9 @@ import {Region} from '../lib/region';
 const app = new cdk.App({});
 
 new Region(app, 'stack', {
-    env: {
-        region: 'us-east-1'
-    }
+  env: {
+    region: 'us-east-1'
+  }
 });
 
 app.synth();

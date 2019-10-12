@@ -19,7 +19,12 @@ export interface StageDefinition {
     priority: number
 }
 
-export function createStage(scope: Construct, id: string, props: StageDefinition) {
+export interface StageReturnValue {
+    stage: StageInfrastructure,
+    deployAction: CodeDeployServerDeployAction
+}
+
+export function createStage(scope: Construct, id: string, props: StageDefinition): StageReturnValue {
     const stage = new StageInfrastructure(scope, `${id}-stage`, {
         application: props.application,
         vpc: props.vpc

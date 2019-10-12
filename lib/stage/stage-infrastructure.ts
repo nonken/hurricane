@@ -56,7 +56,7 @@ export class StageInfrastructure extends Construct {
             deregistrationDelay: Duration.seconds(60),
             vpc: props.vpc,
             healthCheck: {
-                path: '/',
+                path: '/_health',
                 port: '8443',
                 timeout: Duration.seconds(2),
                 interval: Duration.seconds(5),

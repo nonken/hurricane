@@ -1,21 +1,19 @@
-# AWS Infrastructure Setup
-This project allows you to setup a complete stack on AWS with following characteristics.
+# Hurricane
 
-1. Three different components.
-A classic webservice, delivering your webpages.
-An API service which the webservice can communicate with. 
-A CDN for static asset delivery
+> Setup a complete bootstrapped service architecture on AWS in just a few minutes.
 
-2. CI/CD for each of the components, with staging and production stages.
+Hurricane provisions three service types for you: A simple web-service, and api-service and static-assets.
+Each of the services come with a pipeline, staging and production environments.
+Things like SSL and http to https redirect come out of the box 🎉.
 
-3. SSL and HTTP to HTTPS redirect out of the box.
+> ⚠️ This is work in progress and regularly updated. 
 
-## Getting started
+## Usage
 There are only a few prerequisites for you to spin up this stack.
 
 ### 1. Buy a domain where you can manage DNS
 
-### 2. Create GitHub API token
+### 2. Create a GitHub API token
 1. Go to github and create an API key.
 2. Store key in AWS Secret manager.
 
@@ -32,7 +30,7 @@ cdk deploy --profile YOUR_CREDENTIAL_PROFILE
 
 ### 6. Update your DNS records to point to the Rout53 entries
 
-### 7. Profit 
+### 7. Profit 🎉
 
 ## Known issues
 
@@ -43,8 +41,6 @@ aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --regi
 ```
 
 ## TODO
-* [x] Redirect HTTP to HTTPS
-* [ ] Pipeline for static assets
 * [ ] Run own NAT gateway to reduce cost (https://hackernoon.com/dealing-with-an-aws-billing-surprise-beware-the-defaults-d8a95f6635a2)
 
 ## Useful commands

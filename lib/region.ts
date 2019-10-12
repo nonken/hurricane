@@ -1,8 +1,10 @@
 import {App, Stack, StackProps} from '@aws-cdk/core';
 import {PublicHostedZone} from "@aws-cdk/aws-route53";
 import {Vpc} from '@aws-cdk/aws-ec2';
+
 import {WebService} from "./stack/web";
 import {ApiService} from "./stack/api";
+import {StaticAssets} from "./stack/static";
 import {createLoadBalancer} from "./load-balancer";
 
 export class Region extends Stack {
@@ -11,7 +13,7 @@ export class Region extends Stack {
 
     const stackName = this.node.tryGetContext('stackName');
     const zoneName = this.node.tryGetContext('zoneName');
-    const certificateArns = this.node.tryGetContext('certificateArns');
+    const certificateArn = this.node.tryGetContext('certificateArns');
 
     const vpc = new Vpc(this, `${stackName}-vpc`);
 
@@ -21,7 +23,7 @@ export class Region extends Stack {
 
     const {loadBalancer, httpsListener} = createLoadBalancer(this, `${id}`, {
       vpc: vpc,
-      certificateArns: certificateArns
+      certificateArns: [certificateArn]
     });
 
     new WebService(this, `${stackName}-web-service`, {
@@ -38,6 +40,11 @@ export class Region extends Stack {
       loadBalancer,
       httpsListener,
       configKey: 'apiService'
+    });
+
+    new StaticAssets(this, `${stackName}-static-assets`, {
+      zone,
+      configKey: 'staticAssets'
     });
   }
 }

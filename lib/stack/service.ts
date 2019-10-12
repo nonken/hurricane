@@ -9,7 +9,6 @@ import {PublicHostedZone} from "@aws-cdk/aws-route53";
 import {ApplicationLoadBalancer, ApplicationListener} from '@aws-cdk/aws-elasticloadbalancingv2';
 
 import {StageReturnValue} from "../stage";
-import {createLoadBalancer} from "../load-balancer";
 import {createStage} from "../stage";
 
 export interface ServiceDefinition {

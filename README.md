@@ -39,7 +39,7 @@ aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --regi
 ```
 
 ## TODO
-*  Tracking here https://github.com/nonken/aws-infrastructure/issues/1
+*  [Tracking here](https://github.com/nonken/aws-infrastructure/issues/1)
 
 ## Useful commands
 

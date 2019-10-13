@@ -42,6 +42,7 @@ aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --regi
 
 ## TODO
 * [ ] Run own NAT gateway to reduce cost (https://hackernoon.com/dealing-with-an-aws-billing-surprise-beware-the-defaults-d8a95f6635a2)
+* [ ] Move services/stages into their own accounts and define account structure for shared infra like Route53. 
 
 ## Useful commands
 

@@ -7,7 +7,8 @@ import {SubnetType} from '@aws-cdk/aws-ec2';
 
 export interface StageInfrastructureDefinition {
   application: codedeploy.ServerApplication,
-  vpc: Vpc
+  vpc: Vpc,
+  deploymentGroupName: string
 }
 
 export class StageInfrastructure extends Construct {
@@ -70,7 +71,8 @@ export class StageInfrastructure extends Construct {
       installAgent: true,
       application: props.application,
       loadBalancer: codedeploy.LoadBalancer.application(this.targetGroup),
-      deploymentConfig: codedeploy.ServerDeploymentConfig.ALL_AT_ONCE
+      deploymentConfig: codedeploy.ServerDeploymentConfig.ALL_AT_ONCE,
+      deploymentGroupName: props.deploymentGroupName
     });
   }
 }

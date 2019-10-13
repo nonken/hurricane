@@ -16,7 +16,8 @@ export interface StageDefinition {
   loadBalancer: ApplicationLoadBalancer,
   buildArtifact: Artifact,
   hostName: string,
-  priority: number
+  priority: number,
+  deploymentGroupName: string
 }
 
 export interface StageReturnValue {
@@ -27,7 +28,8 @@ export interface StageReturnValue {
 export function createStage(scope: Construct, id: string, props: StageDefinition): StageReturnValue {
   const stage = new StageInfrastructure(scope, `${id}-stage`, {
     application: props.application,
-    vpc: props.vpc
+    vpc: props.vpc,
+    deploymentGroupName: props.deploymentGroupName
   });
 
   props.httpsListener.addTargetGroups(`${id}-target-group`, {

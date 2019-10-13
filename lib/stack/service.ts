@@ -95,6 +95,7 @@ export class Service extends Construct {
       zone: props.zone,
       application,
       buildArtifact,
+      deploymentGroupName: 'staging'
     });
 
     pipeline.addStage({
@@ -102,7 +103,7 @@ export class Service extends Construct {
       actions: [this.stagingStage.deployAction],
     });
 
-    // Staging
+    // Production
     this.productionStage = createStage(this, `${id}-production`, {
       hostName: stages.production.hostName,
       priority: stages.production.priority,
@@ -112,6 +113,7 @@ export class Service extends Construct {
       zone: props.zone,
       application,
       buildArtifact,
+      deploymentGroupName: 'production'
     });
 
     pipeline.addStage({

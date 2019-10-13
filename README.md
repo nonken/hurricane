@@ -4,7 +4,7 @@
 
 Hurricane provisions three service types for you: A simple web-service, and api-service and static-assets.
 Each of the services come with a pipeline, staging and production environments.
-Things like SSL and http to https redirect come out of the box 🎉.
+Things like SSL and `http` to `https` redirection come out of the box 🎉.
 
 > ⚠️ This is work in progress and regularly updated. 
 

@@ -12,10 +12,12 @@
     "stages": {
       "staging": {
         "hostName": "STAGING.YOUR.DOMAIN",
+        "staticAssetsHostName": "STATIC_STAGING.YOUR.DOMAIN",
         "priority": 1
       },
       "production": {
         "hostName": "YOUR.DOMAIN",
+        "staticAssetsHostName": "STATIC.YOUR.DOMAIN",
         "priority": 2,
         "cname": {
           "recordName": "www",
@@ -38,21 +40,6 @@
       "production": {
         "hostName": "API.YOUR.DOMAIN",
         "priority": 5
-      }
-    }
-  },
-  "staticAssets": {
-    "githubTokenSecretArn": "ARN_FOR_GITHUB_SECRET_IN_SECRETS_MANAGER",
-    "githubTokenFieldName": "GITHUB_SECRET_FIELD_NAME",
-    "githubOwner": "GITHUB_OWNER",
-    "githubRepo": "GITHUB_REPO",
-    "githubBranch": "GITHUB_BRANCH",
-    "stages": {
-      "staging": {
-        "hostName": "STATIC-STAGING.YOUR.DOMAIN"
-      },
-      "production": {
-        "hostName": "STAGING.YOUR.DOMAIN"
       }
     }
   }

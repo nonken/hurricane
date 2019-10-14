@@ -2,7 +2,11 @@
 
 > Setup a complete bootstrapped service architecture on AWS in just a few minutes.
 
-Hurricane helps you to setup a complete service architecure based on best practices on AWS. It currently provisions three service types for you: A web-service, and api-service and static-assets. Each of the services come with a pipeline, staging and production environments. Things like SSL and `http` to `https` redirection come out of the box 🎉. 
+Hurricane helps you to setup a complete service architecure based on best practices on AWS. 
+It currently provisions two service types for you: A web-service, and an api-service. 
+The web-service component includes both the service delivering your HTML and static asset delivery. 
+Each of the services come with a pipeline, staging and production environments. 
+Things like SSL and `http` to `https` redirection come out of the box 🎉. 
 
 ## Usage
 Follow the below prerequisites for you to spin up this stack.

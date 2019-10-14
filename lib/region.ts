@@ -3,7 +3,6 @@ import {Vpc} from '@aws-cdk/aws-ec2';
 
 import {WebService} from "./stack/web";
 import {ApiService} from "./stack/api";
-import {StaticAssets} from "./stack/static";
 import {createLoadBalancer} from "./load-balancer";
 import {Dns} from "./dns";
 
@@ -37,11 +36,6 @@ export class Region extends Stack {
       loadBalancer,
       httpsListener,
       configKey: 'apiService'
-    });
-
-    new StaticAssets(this, `${stackName}-static-assets`, {
-      zone: dns.zone,
-      configKey: 'staticAssets'
     });
   }
 }

@@ -2,6 +2,7 @@
   "stackName": "STACKNAME",
   "zoneName": "YOUR.DOMAIN",
   "certificateArn": "ARN_FOR_CERTIFICATE_FOR_YOUR_DOMAIN",
+  "mxRecords": [],
   "webService": {
     "githubTokenSecretArn": "ARN_FOR_GITHUB_SECRET_IN_SECRETS_MANAGER",
     "githubTokenFieldName": "GITHUB_SECRET_FIELD_NAME",

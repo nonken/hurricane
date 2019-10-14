@@ -6,6 +6,7 @@ import {WebService} from "./stack/web";
 import {ApiService} from "./stack/api";
 import {StaticAssets} from "./stack/static";
 import {createLoadBalancer} from "./load-balancer";
+import {Dns} from "./dns";
 
 export class Region extends Stack {
   constructor(scope: App, id: string, props?: StackProps) {
@@ -16,6 +17,7 @@ export class Region extends Stack {
     const certificateArn = this.node.tryGetContext('certificateArn');
 
     const vpc = new Vpc(this, `${stackName}-vpc`);
+    const dns = new Dns(this, `${stackName}-dns`);
 
     const zone = new PublicHostedZone(this, `${stackName}-hosted-zone`, {
       zoneName
@@ -27,7 +29,7 @@ export class Region extends Stack {
     });
 
     new WebService(this, `${stackName}-web-service`, {
-      zone,
+      zone: dns.zone,
       vpc,
       loadBalancer,
       httpsListener,
@@ -35,7 +37,7 @@ export class Region extends Stack {
     });
 
     new ApiService(this, `${stackName}-api-service`, {
-      zone,
+      zone: dns.zone,
       vpc,
       loadBalancer,
       httpsListener,
@@ -43,7 +45,7 @@ export class Region extends Stack {
     });
 
     new StaticAssets(this, `${stackName}-static-assets`, {
-      zone,
+      zone: dns.zone,
       configKey: 'staticAssets'
     });
   }

@@ -1,18 +1,27 @@
 import {Construct, Duration} from '@aws-cdk/core';
+import {ApplicationListener, ApplicationLoadBalancer, ApplicationTargetGroup, ApplicationProtocol} from "@aws-cdk/aws-elasticloadbalancingv2";
+import {Vpc, UserData, InstanceType, InstanceClass, InstanceSize, AmazonLinuxImage, SubnetType} from '@aws-cdk/aws-ec2';
 import {AutoScalingGroup} from '@aws-cdk/aws-autoscaling';
-import {Vpc, UserData, InstanceType, InstanceClass, InstanceSize, AmazonLinuxImage} from '@aws-cdk/aws-ec2';
-import codedeploy = require('@aws-cdk/aws-codedeploy');
-import {ApplicationProtocol, ApplicationTargetGroup} from '@aws-cdk/aws-elasticloadbalancingv2';
-import {SubnetType} from '@aws-cdk/aws-ec2';
+import {ARecord, PublicHostedZone, RecordTarget} from "@aws-cdk/aws-route53";
+import {Artifact} from "@aws-cdk/aws-codepipeline";
+import {LoadBalancerTarget} from "@aws-cdk/aws-route53-targets";
+import {ServerApplication, LoadBalancer, ServerDeploymentGroup, ServerDeploymentConfig} from '@aws-cdk/aws-codedeploy';
+import {CodeDeployServerDeployAction} from '@aws-cdk/aws-codepipeline-actions';
 
 export interface StageInfrastructureDefinition {
-  application: codedeploy.ServerApplication,
+  application: ServerApplication,
+  httpsListener: ApplicationListener
   vpc: Vpc,
+  zone: PublicHostedZone,
+  loadBalancer: ApplicationLoadBalancer,
+  buildArtifact: Artifact,
+  hostName: string,
+  priority: number,
   deploymentGroupName: string
 }
 
 export class StageInfrastructure extends Construct {
-  public readonly deploymentGroup: codedeploy.ServerDeploymentGroup;
+  public readonly deployAction: CodeDeployServerDeployAction;
   public readonly targetGroup: ApplicationTargetGroup;
 
   constructor(scope: Construct, id: string, props: StageInfrastructureDefinition) {
@@ -66,13 +75,31 @@ export class StageInfrastructure extends Construct {
       }
     });
 
-    this.deploymentGroup = new codedeploy.ServerDeploymentGroup(this, `${id}-deployment-group`, {
+    const deploymentGroup = new ServerDeploymentGroup(this, `${id}-deployment-group`, {
       autoScalingGroups: [asg],
       installAgent: true,
       application: props.application,
-      loadBalancer: codedeploy.LoadBalancer.application(this.targetGroup),
-      deploymentConfig: codedeploy.ServerDeploymentConfig.ALL_AT_ONCE,
+      loadBalancer: LoadBalancer.application(this.targetGroup),
+      deploymentConfig: ServerDeploymentConfig.ALL_AT_ONCE,
       deploymentGroupName: props.deploymentGroupName
+    });
+
+    props.httpsListener.addTargetGroups(`${id}-target-group`, {
+      targetGroups: [this.targetGroup],
+      hostHeader: props.hostName,
+      priority: props.priority
+    });
+
+    new ARecord(scope, `${id}-alias-record`, {
+      zone: props.zone,
+      recordName: props.hostName,
+      target: RecordTarget.fromAlias(new LoadBalancerTarget(props.loadBalancer))
+    });
+
+    this.deployAction = new CodeDeployServerDeployAction({
+      actionName: `${id}-codedeploy`,
+      input: props.buildArtifact,
+      deploymentGroup: deploymentGroup
     });
   }
 }

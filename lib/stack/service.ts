@@ -8,8 +8,7 @@ import {Vpc} from '@aws-cdk/aws-ec2';
 import {PublicHostedZone} from "@aws-cdk/aws-route53";
 import {ApplicationLoadBalancer, ApplicationListener} from '@aws-cdk/aws-elasticloadbalancingv2';
 
-import {StageReturnValue} from "../stage";
-import {createStage} from "../stage";
+import {StageInfrastructure} from "../stage";
 
 export interface ServiceDefinition {
   vpc: Vpc,
@@ -20,8 +19,8 @@ export interface ServiceDefinition {
 }
 
 export class Service extends Construct {
-  public readonly stagingStage: StageReturnValue;
-  public readonly productionStage: StageReturnValue;
+  public readonly stagingStage: StageInfrastructure;
+  public readonly productionStage: StageInfrastructure;
 
   constructor(scope: Construct, id: string, props: ServiceDefinition) {
     super(scope, id);
@@ -86,7 +85,7 @@ export class Service extends Construct {
     const application = new ServerApplication(this, `${id}-codedeploy-application`);
 
     // Staging
-    this.stagingStage = createStage(this, `${id}-staging`, {
+    this.stagingStage = new StageInfrastructure(this, `${id}-staging`, {
       hostName: stages.staging.hostName,
       priority: stages.staging.priority,
       httpsListener: props.httpsListener,
@@ -104,7 +103,7 @@ export class Service extends Construct {
     });
 
     // Production
-    this.productionStage = createStage(this, `${id}-production`, {
+    this.productionStage = new StageInfrastructure(this, `${id}-production`, {
       hostName: stages.production.hostName,
       priority: stages.production.priority,
       httpsListener: props.httpsListener,

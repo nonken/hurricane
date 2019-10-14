@@ -20,7 +20,7 @@ export class WebService extends Service {
       });
 
       props.httpsListener.addTargetGroups(`${id}-target-group`, {
-        targetGroups: [this.productionStage.stage.targetGroup],
+        targetGroups: [this.productionStage.targetGroup],
         hostHeader: `${stage.cname.recordName}.${stage.hostName}`,
         priority: stage.cname.priority
       });

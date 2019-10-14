@@ -1,5 +1,4 @@
 import {App, Stack, StackProps} from '@aws-cdk/core';
-import {PublicHostedZone} from "@aws-cdk/aws-route53";
 import {Vpc} from '@aws-cdk/aws-ec2';
 
 import {WebService} from "./stack/web";
@@ -18,10 +17,6 @@ export class Region extends Stack {
 
     const vpc = new Vpc(this, `${stackName}-vpc`);
     const dns = new Dns(this, `${stackName}-dns`);
-
-    const zone = new PublicHostedZone(this, `${stackName}-hosted-zone`, {
-      zoneName
-    });
 
     const {loadBalancer, httpsListener} = createLoadBalancer(this, `${id}`, {
       vpc: vpc,

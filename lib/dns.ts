@@ -1,11 +1,11 @@
-import {Stack, StackProps} from '@aws-cdk/core';
+import {Construct} from '@aws-cdk/core';
 import {PublicHostedZone, MxRecord} from "@aws-cdk/aws-route53";
 
-export class Dns extends Stack {
+export class Dns extends Construct {
   public readonly zone: PublicHostedZone;
 
-  constructor(scope: Stack, id: string, props?: StackProps) {
-    super(scope, id, props);
+  constructor(scope: Construct, id: string) {
+    super(scope, id);
 
     const stackName = this.node.tryGetContext('stackName');
     const zoneName = this.node.tryGetContext('zoneName');

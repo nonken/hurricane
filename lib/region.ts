@@ -13,7 +13,7 @@ export class Region extends Stack {
 
     const stackName = this.node.tryGetContext('stackName');
     const zoneName = this.node.tryGetContext('zoneName');
-    const certificateArn = this.node.tryGetContext('certificateArns');
+    const certificateArn = this.node.tryGetContext('certificateArn');
 
     const vpc = new Vpc(this, `${stackName}-vpc`);
 

@@ -19,14 +19,18 @@ Follow the below prerequisites for you to spin up this stack.
 ### 4. Setup `cdk.context.json`
 Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct values.
 
-### 5. Deploy the stack
+### 5. Setup the application repos
+You can deploy any application which includes an `appspec.yml` (CodeDeploy) and a `buildspec.yml` (CodeBuild) in the root of the repository.
+TODO: provide sample applications.
+
+### 6. Deploy the stack
 ```
 cdk deploy --profile YOUR_CREDENTIAL_PROFILE
 ```
 
-### 6. Update your DNS records to point to the Rout53 entries
+### 7. Update your DNS records to point to the Rout53 entries
 
-### 7. Profit 🎉
+### 8. Profit 🎉
 
 ## Known issues
 

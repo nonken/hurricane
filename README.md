@@ -10,7 +10,7 @@ Follow the below prerequisites for you to spin up this stack.
 ### 1. Buy a domain where you can manage DNS
 
 ### 2. Create a GitHub API token
-1. Go to [GitHub](https://github.com/settings/tokens) and create an API key. The key needs to include all `repo` and all `admin:repo_hook` permission. 
+1. Go to [GitHub](https://github.com/settings/tokens) and create an API key. The key needs to include all `repo` and all `admin:repo_hook` permissions. 
 2. Store key in AWS Secret manager. Name the key as you like and paste the GitHub key as a value.
 
 ### 3. Create ACM certificate
@@ -22,7 +22,7 @@ Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct v
 
 ### 5. Setup the application repos
 You can deploy any application which includes an `appspec.yml` (CodeDeploy) and a `buildspec.yml` (CodeBuild) in the root of the repository.
-TODO: provide sample applications.
+`TODO: provide sample applications.`
 
 ### 6. Deploy the stack
 ```

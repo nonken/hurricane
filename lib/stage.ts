@@ -37,13 +37,8 @@ export class StageInfrastructure extends Construct {
       'mkdir -p /home/ec2-user/app/keys',
       'cd /home/ec2-user/app/keys',
       'openssl req -new -newkey rsa:4096 -days 365 -nodes -x509 -subj "/C=/ST=/L=/O=/CN=localhost" -keyout key.pem -out cert.pem',
-
       'mkdir -p /home/ec2-user/app/logs',
-
-      'chown -R ec2-user:ec2-user /home/ec2-user/app',
-
-      '/opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --region ${AWS::Region} --resource Instance',
-      '/opt/aws/bin/cfn-signal -e 0 --stack ${AWS::StackName} --region ${AWS::Region} --resource Instance'
+      'chown -R ec2-user:ec2-user /home/ec2-user/app'
     );
 
     const asg = new AutoScalingGroup(this, `${id}-asg`, {

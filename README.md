@@ -35,14 +35,14 @@ cdk deploy --profile YOUR_CREDENTIAL_PROFILE
 
 ## Known issues
 
-**Alias already exists**
+**Alias already exists:**
 When you destroy the stack and recreate it, you need to delete an alias used for KMS:
 You need to remove an alias for each stage. Look or this in the CDK error message.
 ```
 aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --region AWS_REGION
 ```
 
-**S3 bucket for static assets already exists**
+**S3 bucket for static assets already exists:**
 You can manually delete the buckets in the AWS S3 console.
 
 ## TODO

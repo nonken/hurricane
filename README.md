@@ -10,11 +10,12 @@ Follow the below prerequisites for you to spin up this stack.
 ### 1. Buy a domain where you can manage DNS
 
 ### 2. Create a GitHub API token
-1. Go to github and create an API key.
-2. Store key in AWS Secret manager.
+1. Go to [GitHub](https://github.com/settings/tokens) and create an API key. The key needs to include all `repo` and all `admin:repo_hook` permission. 
+2. Store key in AWS Secret manager. Name the key as you like and paste the GitHub key as a value.
 
 ### 3. Create ACM certificate
-1. Get the ARN of the certificate you'd like to use.
+1. Create a certificate for your domain using ACM. This is for free!
+1. Get the ARN of the certificate you just created.
 
 ### 4. Setup `cdk.context.json`
 Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct values.

@@ -1,7 +1,8 @@
 {
   "stackName": "STACKNAME",
   "zoneName": "YOUR.DOMAIN",
-  "certificateArn": "ARN_FOR_CERTIFICATE_FOR_YOUR_DOMAIN",
+  "certificateDomainName": "YOUR.DOMAIN",
+  "certificateAlternativeDomainName": "*.YOUR.DOMAIN",
   "mxRecords": [],
   "web": {
     "githubTokenSecretArn": "ARN_FOR_GITHUB_SECRET_IN_SECRETS_MANAGER",

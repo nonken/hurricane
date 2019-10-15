@@ -10,13 +10,8 @@ import {CodeDeployServerDeployAction} from '@aws-cdk/aws-codepipeline-actions';
 
 export interface StageInfrastructureDefinition {
   application: ServerApplication,
-  httpsListener: ApplicationListener
   vpc: Vpc,
-  zone: PublicHostedZone,
-  loadBalancer: ApplicationLoadBalancer,
   buildArtifact: Artifact,
-  hostName: string,
-  priority: number,
   deploymentGroupName: string
 }
 
@@ -77,18 +72,6 @@ export class StageInfrastructure extends Construct {
       loadBalancer: LoadBalancer.application(this.targetGroup),
       deploymentConfig: ServerDeploymentConfig.ALL_AT_ONCE,
       deploymentGroupName: props.deploymentGroupName
-    });
-
-    props.httpsListener.addTargetGroups(`${id}-target-group`, {
-      targetGroups: [this.targetGroup],
-      hostHeader: props.hostName,
-      priority: props.priority
-    });
-
-    new ARecord(scope, `${id}-alias-record`, {
-      zone: props.zone,
-      recordName: props.hostName,
-      target: RecordTarget.fromAlias(new LoadBalancerTarget(props.loadBalancer))
     });
 
     this.deployAction = new CodeDeployServerDeployAction({

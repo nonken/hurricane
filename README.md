@@ -2,40 +2,59 @@
 
 > Setup a complete bootstrapped service architecture on AWS in just a few minutes.
 
-Hurricane helps you to setup a complete service architecure based on best practices on AWS. 
-It currently provisions two service types for you: A web-service, and an api-service. 
-The web-service component includes both the service delivering your HTML and static asset delivery. 
-Each of the services come with a pipeline, staging and production environments. 
-Things like SSL and `http` to `https` redirection come out of the box 🎉. 
+Hurricane helps you to setup a complete service architecture on AWS using the AWS CDK.
+The purpose of Hurricane is to help you learn about the CDK. It is trying to incorporate best practices where helpful. 
+Hurricane currently doesn't provision a serverless stack. This will be part of a future iteration.
+ 
+## Hurricane provisions four CDK stacks. 
+
+**DNS** A Route53 zone with a certificate so that you can serve traffic over SSL.
+
+**Shared** Shared components such a load-balancer and the VPC.
+
+**Web** A CI/CD pipeline for a webservice and static assets served via a CloudFront distribution. The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
+
+**Api** A CI/CD pipeline for an api service (controlplane). The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
 
 ## Usage
-Follow the below prerequisites for you to spin up this stack.
+Follow the below prerequisites to spin up a new stack.
 
 ### 1. Buy a domain where you can manage DNS
 
 ### 2. Create a GitHub API token
 1. Go to [GitHub](https://github.com/settings/tokens) and create an API key. The key needs to include all `repo` and all `admin:repo_hook` permissions. 
-2. Store key in AWS Secret manager. Name the key as you like and paste the GitHub key as a value.
+2. Store key in AWS Secret Manager. Name the key as you like and paste the GitHub key as a value.
 
-### 3. Create ACM certificate
-1. Create a certificate for your domain using ACM. This is for free!
-1. Get the ARN of the certificate you just created.
-
-### 4. Setup `cdk.context.json`
+### 3. Setup `cdk.context.json`
 Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct values.
 
-### 5. Setup the application repos
+### 4. Setup the application repos
 You can deploy any application which includes an `appspec.yml` (CodeDeploy) and a `buildspec.yml` (CodeBuild) in the root of the repository.
 `TODO: provide sample applications.`
 
+### 5. During the DNS cdk deployment, update your registrar records
+Once the Route53 zone has been created, head to the console to get the nameserver entries.
+Update those at your registrar so that your domain points to the correct Route53 nameserver. 
+It'll take a few seconds until your certificate gets provisioned.
+
 ### 6. Deploy the stack
 ```
-cdk deploy --profile YOUR_CREDENTIAL_PROFILE
+cdk deploy --profile YOUR_CREDENTIAL_PROFILE dns shared web api
 ```
 
-### 7. Update your DNS records to point to the Rout53 entries
+### 7. Profit 🎉
 
-### 8. Profit 🎉
+**Web**
+Prod: https://your.domain
+Staging: https://staging.your.domain
+
+**Static assets**
+Prod: https://static.your.domain
+Staging: https://static-staging.your.domain
+
+**Api**
+Prod: https://api.your.domain
+Staging: https://api-staging.your.domain
 
 ## Known issues
 
@@ -43,15 +62,16 @@ cdk deploy --profile YOUR_CREDENTIAL_PROFILE
 When you destroy the stack and recreate it, you need to delete an alias used for KMS:
 You need to remove an alias for each stage. Look or this in the CDK error message.
 ```
-aws kms delete-alias --alias-name ALIAS --profile YOUR_CREDENTIAL_PROFILE --region AWS_REGION
+aws kms delete-alias --alias-name alias/codepipeline-apiapipipeline110f86f3 --profile baseline --region us-east-1
 ```
 
 **S3 bucket for static assets already exists:**
 You can manually delete the buckets in the AWS S3 console.
 
-## TODO
-* [ ] Run own NAT gateway to reduce cost (https://hackernoon.com/dealing-with-an-aws-billing-surprise-beware-the-defaults-d8a95f6635a2)
-* [ ] Move services/stages into their own accounts and define account structure for shared infra like Route53. 
+## Using other AWS services as part of the deployment stages.
+Right now, CDK doesn't support automatic provisioning of AWS accounts.
+If you want to use for example DynamoDB for your service, it is recommended to separate instances for staging/production through accounts.
+For this you need to manually create accounts and reference those here.
 
 ## Useful commands
 

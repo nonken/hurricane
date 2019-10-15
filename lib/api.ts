@@ -1,25 +1,19 @@
-import {Construct, SecretValue} from "@aws-cdk/core";
+import {App, SecretValue} from "@aws-cdk/core";
 import {Artifact, Pipeline} from "@aws-cdk/aws-codepipeline";
 import {CodeBuildAction, GitHubSourceAction, GitHubTrigger} from "@aws-cdk/aws-codepipeline-actions";
 import {BuildSpec, ComputeType, LinuxBuildImage, PipelineProject} from "@aws-cdk/aws-codebuild";
 import {ServerApplication} from '@aws-cdk/aws-codedeploy';
 import {PolicyStatement, Effect} from '@aws-cdk/aws-iam';
-import {Vpc} from '@aws-cdk/aws-ec2';
-import {PublicHostedZone} from "@aws-cdk/aws-route53";
-import {ApplicationLoadBalancer, ApplicationListener} from '@aws-cdk/aws-elasticloadbalancingv2';
+import {ApplicationListenerRule} from '@aws-cdk/aws-elasticloadbalancingv2';
 
-import {StageInfrastructure} from "../stage";
+import {StageInfrastructure} from "./stage";
+import {ApplicationProperties, ApplicationStack} from "./application-stack";
+import {ARecord, RecordTarget} from "@aws-cdk/aws-route53";
+import {LoadBalancerTarget} from "@aws-cdk/aws-route53-targets";
 
-export interface ServiceDefinition {
-  vpc: Vpc,
-  zone: PublicHostedZone,
-  loadBalancer: ApplicationLoadBalancer,
-  httpsListener: ApplicationListener
-}
-
-export class ApiService extends Construct {
-  constructor(scope: Construct, id: string, props: ServiceDefinition) {
-    super(scope, id);
+export class Api extends ApplicationStack {
+  constructor(scope: App, id: string, props: ApplicationProperties) {
+    super(scope, id, props);
 
     const {
       githubOwner,
@@ -82,15 +76,23 @@ export class ApiService extends Construct {
 
     // Staging
     const stagingStage = new StageInfrastructure(this, `${id}-staging`, {
-      hostName: stages.staging.hostName,
-      priority: stages.staging.priority,
-      httpsListener: props.httpsListener,
-      loadBalancer: props.loadBalancer,
       vpc: props.vpc,
-      zone: props.zone,
       application,
       buildArtifact,
       deploymentGroupName: 'staging'
+    });
+
+    new ApplicationListenerRule(this, `${id}-staging-application-listener-rule`, {
+      listener: props.httpsListener,
+      targetGroups: [stagingStage.targetGroup],
+      hostHeader: stages.staging.hostName,
+      priority: stages.staging.priority,
+    });
+
+    new ARecord(this, `${id}-alias-staging-record`, {
+      zone: props.zone,
+      recordName: stages.staging.hostName,
+      target: RecordTarget.fromAlias(new LoadBalancerTarget(props.loadBalancer))
     });
 
     pipeline.addStage({
@@ -100,15 +102,23 @@ export class ApiService extends Construct {
 
     // Production
     const productionStage = new StageInfrastructure(this, `${id}-production`, {
-      hostName: stages.production.hostName,
-      priority: stages.production.priority,
-      httpsListener: props.httpsListener,
-      loadBalancer: props.loadBalancer,
       vpc: props.vpc,
-      zone: props.zone,
       application,
       buildArtifact,
       deploymentGroupName: 'production'
+    });
+
+    new ApplicationListenerRule(this, `${id}-production-application-listener-rule`, {
+      listener: props.httpsListener,
+      targetGroups: [productionStage.targetGroup],
+      hostHeader: stages.production.hostName,
+      priority: stages.production.priority,
+    });
+
+    new ARecord(this, `${id}-alias-production-record`, {
+      zone: props.zone,
+      recordName: stages.production.hostName,
+      target: RecordTarget.fromAlias(new LoadBalancerTarget(props.loadBalancer))
     });
 
     pipeline.addStage({

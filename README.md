@@ -7,13 +7,13 @@ The purpose of Hurricane is to help you learn about the CDK. It is trying to inc
  
 ## Hurricane provisions four CDK stacks. 
 
-**DNS** A Route53 zone with a certificate so that you can serve traffic over SSL.
+**DNS:** A Route53 zone with a certificate so that you can serve traffic over SSL.
 
-**Shared** Shared components such a load-balancer and the VPC.
+**Shared:** Shared components such a load-balancer and the VPC.
 
-**Web** A CI/CD pipeline for a webservice and static assets served via a CloudFront distribution. The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
+**Web:** A CI/CD pipeline for a webservice and static assets served via a CloudFront distribution. The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
 
-**Api** A CI/CD pipeline for an api service (controlplane). The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
+**Api:** A CI/CD pipeline for an api service (controlplane). The pipeline includes a staging and a production environment. Traffic is served via SSL (https://) and traffic going over HTTP is redirected to HTTPS. 
 
 ## Usage
 Follow the below prerequisites to spin up a new stack.

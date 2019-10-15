@@ -4,7 +4,6 @@
 
 Hurricane helps you to setup a complete service architecture on AWS using the [AWS CDK](https://github.com/aws/aws-cdk).
 The purpose of Hurricane is to help you learn about the CDK. It is trying to incorporate best practices where helpful. 
-Hurricane currently doesn't provision a serverless stack. This will be part of a future iteration.
  
 ## Hurricane provisions four CDK stacks. 
 
@@ -72,6 +71,9 @@ You can manually delete the buckets in the AWS S3 console.
 Right now, CDK doesn't support automatic provisioning of AWS accounts.
 If you want to use for example DynamoDB for your service, it is recommended to separate instances for staging/production through accounts.
 For this you need to manually create accounts and reference those here.
+
+## Future
+Hurricane currently doesn't provision a serverless stack. This will be part of a future iteration.
 
 ## Useful commands
 

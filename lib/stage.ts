@@ -1,10 +1,8 @@
 import {Construct, Duration} from '@aws-cdk/core';
-import {ApplicationListener, ApplicationLoadBalancer, ApplicationTargetGroup, ApplicationProtocol} from "@aws-cdk/aws-elasticloadbalancingv2";
+import {ApplicationTargetGroup, ApplicationProtocol} from "@aws-cdk/aws-elasticloadbalancingv2";
 import {Vpc, UserData, InstanceType, InstanceClass, InstanceSize, AmazonLinuxImage, SubnetType} from '@aws-cdk/aws-ec2';
 import {AutoScalingGroup} from '@aws-cdk/aws-autoscaling';
-import {ARecord, PublicHostedZone, RecordTarget} from "@aws-cdk/aws-route53";
 import {Artifact} from "@aws-cdk/aws-codepipeline";
-import {LoadBalancerTarget} from "@aws-cdk/aws-route53-targets";
 import {ServerApplication, LoadBalancer, ServerDeploymentGroup, ServerDeploymentConfig} from '@aws-cdk/aws-codedeploy';
 import {CodeDeployServerDeployAction} from '@aws-cdk/aws-codepipeline-actions';
 

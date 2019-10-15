@@ -31,15 +31,15 @@ Copy `cdk.context.template.json` to `cdk.context.json` and fill in the correct v
 You can deploy any application which includes an `appspec.yml` (CodeDeploy) and a `buildspec.yml` (CodeBuild) in the root of the repository.
 `TODO: provide sample applications.`
 
-### 5. During the DNS cdk deployment, update your registrar records
-Once the Route53 zone has been created, head to the console to get the nameserver entries.
-Update those at your registrar so that your domain points to the correct Route53 nameserver. 
-It'll take a few seconds until your certificate gets provisioned.
-
-### 6. Deploy the stack
+### 5. Deploy the stack
 ```
 cdk deploy --profile YOUR_CREDENTIAL_PROFILE dns shared web api
 ```
+
+### 6. During the DNS cdk deployment, update your registrar records
+Once the Route53 zone has been created, head to the console to get the nameserver entries.
+Update those at your registrar so that your domain points to the correct Route53 nameserver. 
+It'll take a few seconds until your certificate gets provisioned.
 
 ### 7. Profit 🎉
 

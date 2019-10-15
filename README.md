@@ -2,7 +2,7 @@
 
 > Setup a complete bootstrapped service architecture on AWS in just a few minutes.
 
-Hurricane helps you to setup a complete service architecture on AWS using the AWS CDK.
+Hurricane helps you to setup a complete service architecture on AWS using the [AWS CDK](https://github.com/aws/aws-cdk).
 The purpose of Hurricane is to help you learn about the CDK. It is trying to incorporate best practices where helpful. 
 Hurricane currently doesn't provision a serverless stack. This will be part of a future iteration.
  

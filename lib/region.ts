@@ -26,16 +26,14 @@ export class Region extends Stack {
       zone: dns.zone,
       vpc,
       loadBalancer,
-      httpsListener,
-      configKey: 'webService'
+      httpsListener
     });
 
     new ApiService(this, `${stackName}-api-service`, {
       zone: dns.zone,
       vpc,
       loadBalancer,
-      httpsListener,
-      configKey: 'apiService'
+      httpsListener
     });
   }
 }

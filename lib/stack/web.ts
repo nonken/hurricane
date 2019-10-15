@@ -18,8 +18,7 @@ export interface ServiceDefinition {
   vpc: Vpc,
   zone: PublicHostedZone,
   loadBalancer: ApplicationLoadBalancer,
-  httpsListener: ApplicationListener,
-  configKey: string
+  httpsListener: ApplicationListener
 }
 
 export class WebService extends Construct {
@@ -34,7 +33,7 @@ export class WebService extends Construct {
       githubTokenSecretArn,
       githubTokenFieldName,
       stages
-    } = this.node.tryGetContext(props.configKey);
+    } = this.node.tryGetContext('web');
 
     const pipeline = new Pipeline(this, `${id}-pipeline`, {
       pipelineName: `${id}-pipeline`

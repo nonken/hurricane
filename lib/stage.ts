@@ -5,6 +5,7 @@ import {AutoScalingGroup} from '@aws-cdk/aws-autoscaling';
 import {Artifact} from "@aws-cdk/aws-codepipeline";
 import {ServerApplication, LoadBalancer, ServerDeploymentGroup, ServerDeploymentConfig} from '@aws-cdk/aws-codedeploy';
 import {CodeDeployServerDeployAction} from '@aws-cdk/aws-codepipeline-actions';
+import {Role, ServicePrincipal, ManagedPolicy, PolicyStatement, Effect} from '@aws-cdk/aws-iam';
 
 export interface StageInfrastructureDefinition {
   application: ServerApplication,
@@ -34,6 +35,17 @@ export class StageInfrastructure extends Construct {
       'chown -R ec2-user:ec2-user /home/ec2-user/app'
     );
 
+    const role = new Role(this, `${id}-instance-role`, {
+      assumedBy: new ServicePrincipal('ec2.amazonaws.com'),
+      managedPolicies: [
+        ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'),
+        ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'),
+        ManagedPolicy.fromAwsManagedPolicyName('CloudWatchFullAccess'),
+        ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonEC2RoleforAWSCodeDeploy'),
+        ManagedPolicy.fromAwsManagedPolicyName('SecretsManagerReadWrite')
+      ]
+    });
+
     const asg = new AutoScalingGroup(this, `${id}-asg`, {
       vpc: props.vpc,
       instanceType: InstanceType.of(InstanceClass.T3, InstanceSize.MICRO),
@@ -44,6 +56,7 @@ export class StageInfrastructure extends Construct {
       vpcSubnets: {
         subnetType: SubnetType.PUBLIC,
       },
+      role,
       userData
     });
 

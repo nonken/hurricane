@@ -61,7 +61,7 @@ Staging: https://api-staging.your.domain
 When you destroy the stack and recreate it, you need to delete an alias used for KMS:
 You need to remove an alias for each stage. Look or this in the CDK error message.
 ```
-aws kms delete-alias --alias-name alias/codepipeline-apiapipipeline110f86f3 --profile baseline --region us-east-1
+aws kms delete-alias --alias-name ALIAS_NAME --profile PROFILE --region REGION
 ```
 
 **S3 bucket for static assets already exists:**

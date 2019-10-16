@@ -41,7 +41,6 @@ export class StageInfrastructure extends Construct {
         ManagedPolicy.fromAwsManagedPolicyName('AmazonDynamoDBFullAccess'),
         ManagedPolicy.fromAwsManagedPolicyName('AmazonS3FullAccess'),
         ManagedPolicy.fromAwsManagedPolicyName('CloudWatchFullAccess'),
-        ManagedPolicy.fromAwsManagedPolicyName('service-role/AmazonEC2RoleforAWSCodeDeploy'),
         ManagedPolicy.fromAwsManagedPolicyName('SecretsManagerReadWrite')
       ]
     });

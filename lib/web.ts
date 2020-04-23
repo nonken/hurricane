@@ -1,8 +1,8 @@
 import {ARecord, CnameRecord, RecordTarget} from "@aws-cdk/aws-route53";
 import {PolicyStatement, Effect} from '@aws-cdk/aws-iam';
-import {SecretValue, App} from "@aws-cdk/core";
+import {SecretValue, App, Duration} from "@aws-cdk/core";
 import {Artifact, Pipeline} from "@aws-cdk/aws-codepipeline";
-import {CodeBuildAction, GitHubSourceAction, GitHubTrigger, S3DeployAction} from "@aws-cdk/aws-codepipeline-actions";
+import {CodeBuildAction, GitHubSourceAction, GitHubTrigger, S3DeployAction, CacheControl} from "@aws-cdk/aws-codepipeline-actions";
 import {BuildSpec, ComputeType, LinuxBuildImage, PipelineProject} from "@aws-cdk/aws-codebuild";
 import {ServerApplication} from '@aws-cdk/aws-codedeploy';
 import {Bucket, BucketAccessControl} from '@aws-cdk/aws-s3';
@@ -174,7 +174,8 @@ export class Web extends ApplicationStack {
     const productionActionProduction = new S3DeployAction({
       actionName: `${id}-s3`,
       input: staticArtifact,
-      bucket: staticAssetsProduction
+      bucket: staticAssetsProduction,
+      cacheControl: [CacheControl.setPublic(), CacheControl.maxAge(Duration.days(365))]
     });
 
     pipeline.addStage({
